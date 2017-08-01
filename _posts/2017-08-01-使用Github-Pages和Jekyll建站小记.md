@@ -15,8 +15,7 @@ categories: posts
 #### head4
 
 just test it
-
-```
+```c
 #include <stdio.h>
 int main(){
   printf("Hello World");
