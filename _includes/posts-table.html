@@ -1,11 +1,18 @@
+<style type="text/css">
+dt{margin:0px; clear:left; float:left; }
+dd{ margin:0px;text-align:right;   }
+</style>
+
+
 <article>
     <h1 id="article-title">Posts</h1>
     <table class="postindex">
-<tr>
-<td><a href="/_posts/2017-04-20-list-the-smallest-k-subset-sums.html">List the smallest subset sums</a></td>
-<td class="right"><time>2017-04-20</time></td>
-</tr>
-
-</table>
+    {% for post in site.posts %}
+    <dl>
+        <dt><a href="{{ post.url }}">{{ post.title }}</a></dt>
+        <dd><time >{{ post.time }}</time></dd>
+    </dl>
+    {% endfor %}
+  </table>
 
 </article>
