@@ -384,17 +384,21 @@ code > span.er {
 }
 
 dl {
-	margin:4px; 
+	margin:4px;
 }
 
 
 dt {
+	margin:0px;
 	font-weight: normal;
+	clear:left; float:left;
 }
 
 dd {
 	margin: 0;
+	text-align:right;
 }
+
 
 @media print {
 	.hide-on-print {

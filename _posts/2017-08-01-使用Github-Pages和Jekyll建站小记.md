@@ -1,7 +1,7 @@
 ---
 title: 使用Github Pages和Jekyll建站小记
 time: 2017-08-01
-tags: [git, markdown]
+tags: [Jekyll]
 layout: post
 categories: posts
 ---
