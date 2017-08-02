@@ -1,4 +1,5 @@
 permalink: :categories/:title
-
-markdown: redcarpet
-
+markdown: kramdown
+highlight: true
+kramdown:
+    input: GFM
