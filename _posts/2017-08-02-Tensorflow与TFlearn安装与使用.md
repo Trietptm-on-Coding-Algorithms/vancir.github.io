@@ -137,8 +137,7 @@ Winslet Surviving Rate: 0.617543399334
 ```
 
 # More Reading
-
-[Tensorflow 中文社区](http://www.tensorfly.cn/)
-[Github - TFlearn](https://github.com/tflearn/tflearn)
-[SSL InsecurePlatform error when using Requests package](http://stackoverflow.com/questions/29099404/ssl-insecureplatform-error-when-using-requests-package)
-[TFlearn_Quickstart_CN](https://github.com/lxzheng/machine_learning/wiki/TFlearn_Quickstart_CN)
+* [Tensorflow 中文社区](http://www.tensorfly.cn/)
+* [Github - TFlearn](https://github.com/tflearn/tflearn)
+* [SSL InsecurePlatform error when using Requests package](http://stackoverflow.com/questions/29099404/ssl-insecureplatform-error-when-using-requests-package)
+* [TFlearn_Quickstart_CN](https://github.com/lxzheng/machine_learning/wiki/TFlearn_Quickstart_CN)
