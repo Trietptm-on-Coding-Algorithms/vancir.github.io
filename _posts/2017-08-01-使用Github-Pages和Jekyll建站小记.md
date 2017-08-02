@@ -6,19 +6,6 @@ layout: post
 categories: posts
 ---
 
+# 使用Github Pages建立博客
 
-
-# Test
-
-## Head2
-### head3
-#### head4
-
-just test it
-```c
-#include <stdio.h>
-int main(){
-  printf("Hello World");
-  return 0;
-}
-```
+# 使用Jekyll搭建环境
