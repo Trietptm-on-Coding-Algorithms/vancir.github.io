@@ -3,3 +3,7 @@ markdown: kramdown
 highlight: true
 kramdown:
     input: GFM
+
+name: Vancir
+description: Security vulnerability experience
+url: www.vancir.com
