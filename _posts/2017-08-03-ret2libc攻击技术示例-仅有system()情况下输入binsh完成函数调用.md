@@ -1,5 +1,5 @@
 ---
-title: ret2libc攻击技术示例-仅有system()情况下输入"/bin/sh"完成函数调用
+title: ret2libc攻击技术示例-仅有system()情况下输入“/bin/sh”完成函数调用
 time: 2017-08-03
 tags: [CTF, pwn, stackoverflow]
 layout: post
