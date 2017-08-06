@@ -150,3 +150,5 @@ fast bin 0 @ 0x602020
 那么我们可以得到结论
 
 > 对于fastbins，我们通过double free泄露出一个堆块的指针
+
+![fastbin-dup](/images/how2heap/fastbin_dup.png)
