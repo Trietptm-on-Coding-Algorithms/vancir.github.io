@@ -8,6 +8,8 @@ categories: posts
 
 # malloc_chunk
 
+> 本文是对Dhaval Kapil的[Heap Exploitation](https://heap-exploitation.dhavalkapil.com/)系列教程的译文
+
 以下结构体代表在内存中的一块特定堆块(chunk)，有些结构体成员对于已分配和未分配的堆块有着不同的意义。
 
 ```c
