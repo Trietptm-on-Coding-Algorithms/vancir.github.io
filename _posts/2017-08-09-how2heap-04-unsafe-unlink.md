@@ -1,6 +1,6 @@
 ---
 title: how2heap-04 unsafe unlink实践笔记
-time: 2017-08-06
+time: 2017-08-09
 tags: [CTF, pwn, heap]
 layout: post
 categories: posts
@@ -58,30 +58,30 @@ int main()
 	printf("We assume that we have an overflow in chunk0 so that we can freely change chunk1 metadata.\n");
 	uint64_t *chunk1_hdr = chunk1_ptr - header_size;
 	printf("We shrink the size of chunk0 (saved as 'previous_size' in chunk1) so that free will think that chunk0 starts where we placed our fake chunk.\n");
-	/* [5] */
+
 	printf("It's important that our fake chunk begins exactly where the known pointer points and that we shrink the chunk accordingly\n");
 	chunk1_hdr[0] = malloc_size;
 	printf("If we had 'normally' freed chunk0, chunk1.previous_size would have been 0x90, however this is its new value: %p\n",(void*)chunk1_hdr[0]);
-	/* [6] */
+
 	printf("We mark our fake chunk as free by setting 'previous_in_use' of chunk1 as False.\n\n");
 	chunk1_hdr[1] &= ~1;
+	/* [5] */
 
-	/* [7] */
 	printf("Now we free chunk1 so that consolidate backward will unlink our fake chunk, overwriting chunk0_ptr.\n");
 	printf("You can find the source of the unlink macro at https://sourceware.org/git/?p=glibc.git;a=blob;f=malloc/malloc.c;h=ef04360b918bceca424482c6db03cc5ec90c3e00;hb=07c18a008c2ed8f5660adba2b778671db159a141#l1344\n\n");
 	free(chunk1_ptr);
 
-	/* [8] */
+
 	printf("At this point we can use chunk0_ptr to overwrite itself to point to an arbitrary location.\n");
 	char victim_string[8];
 	strcpy(victim_string,"Hello!~");
 	chunk0_ptr[3] = (uint64_t) victim_string;
-	/* [9] */
+
 	printf("chunk0_ptr is now pointing where we want, we use it to overwrite our victim string.\n");
 	printf("Original value: %s\n",victim_string);
 	chunk0_ptr[0] = 0x4141414142424242LL;
 	printf("New Value: %s\n",victim_string);
-	/* [11] */
+	/* [6] */
 }
 ```
 
@@ -141,9 +141,9 @@ New Value: BBBBAAAA
 
 ## [2] malloc申请两块空间
 
-malloc申请了两块空间，分别给`chunk0_ptr`和`chunk1_ptr`，我们可以看到，`chunk0_ptr`这个指针所在的地址(指针存储在栈上)为`0x602068`，指向`0x603010`(指向分配的堆地址)，而`chunk1_ptr`指向`0x6030a0`(堆地址)，是我们要破坏的堆块。
+malloc申请了两块空间，分别为`chunk0`和`chunk1`并用`chunk0_ptr`和`chunk1_ptr`指向其，我们可以看到，`chunk0_ptr`这个指针所在的地址(全局指针变量存储在bss段上)为`0x602068`，指向`0x603010`(指向分配的堆地址)，而`chunk1_ptr`指向`0x6030a0`(堆地址)，两个chunk之间的距离是`0x90 = 0x80 + 0x10`，这多出的`0x10`是chunk的头信息，对于`Allocated chunk`，头信息只有`prev_size`和`size`两项。
 
-这里我们可以这样认为，`*chunk_ptr`为变量`chunk_ptr`的值，而`chunk_ptr`则代表该指针指向的堆地址，而`&chunk_ptr`为指针`chunk_ptr`存储在栈上的地址。
+这里我们可以这样认为，`*chunk_ptr`为变量`chunk_ptr`所指向的堆地址的值，而`chunk_ptr`则代表该指针指向的堆地址，而`&chunk_ptr`为指针`chunk_ptr`存储在栈上(或bss段上，取决于指针是否为全局指针变量)的地址。
 
 ``` c
 The global chunk0_ptr is at 0x602068, pointing to 0x603010
@@ -154,7 +154,7 @@ The victim chunk we are going to corrupt is at 0x6030a0
 
 如果明白了`*chunk0_ptr`，`chunk0_ptr`和`&chunk0_ptr`之间的关系的话，这里我们也可以很清楚的看明白是个什么操作
 
-[3]主要是在栈上构造一个`fake chunk`，暂且称为`P`吧，并且将这个`fake chunk`的`fd`和`bk`缠绕在一起，意思就是`P->fd->bk = P`以及`P->bk->fd = P`。这里单纯只是`在栈上`构造了一个`fd`和`bk`都指向自身的`fake chunk`，而这个`fake chunk`的地址就是`&chunk0_ptr`，也就是指针`chunk0_ptr`存储在栈上的地址
+[3]主要是在堆块`chunk0`的`data`区构造一个`fake chunk`，暂且称为`P`吧，并且将这个`fake chunk`的`fake fd`和`fake bk`指向指针`chunk0_ptr`附近，意思就是`P->fd->bk = P`以及`P->bk->fd = P`.
 
 ``` c
 //The global chunk0_ptr is at 0x602068
@@ -166,7 +166,7 @@ Fake chunk bk: 0x602058
 
 ## [4] 构造fake chunk的size与next chunk的prev_size相等
 
-为了通过检查`(chunksize(P) != prev_size (next_chunk(P)) == False`，我们需要将我们伪造的chunk `P`的下一个chunk的`prev_size`位设置为`chunk P`的`size，这样就能通过检查
+为了通过检查`(chunksize(P) != prev_size (next_chunk(P)) == False`，我们需要将我们伪造的chunk `P`的下一个chunk的`prev_size`位设置为`chunk P`的`size`，这样就能通过检查
 
 ``` c
 chunk0_ptr[1] = chunk0_ptr[-3];
@@ -175,7 +175,21 @@ Therefore, we set the 'size' of our fake chunk to the value of chunk0_ptr[-3]: 0
 
 这样我们`fake chunk`的`size`就等于`next chunk`的`prev_size`，虽然是`0x00000000`，但是没关系，我们只需要满足两者相等就可以了。
 
-## [5]
+## [5] 修改next chunk的prev_size和P位
+
+这里的`chunk1_hdr`位于`chunk1_ptr`所指向的堆地址，再上去`2`个长度，也就是`chunk1_ptr`指向`chunk1`的数据区，而`chunk1_hdr`指向`chunk1`的`metadata`起始处，也就是中间是`prev_size`和`size`，也就是`header_size=2`
+
+我们这里因为在`chunk0`的数据区构造了一个`fake chunk`，而我们需要误导glibc,让它以为`chunk1`的上一个`chunk`是`fake chunk`，那么我们就需要改变`prev_size`，让他变小，比如原先是`0x90 + chunk1_address = chunk0_address`，那么我们现在`0x80 + chunk1_address = fake_chunk_address`。同时我们需要将`chunk1`的`P`(prev_inuse)为设置为0，也就是设定`fake chunk`是处于`freed`的状态。因为只有被释放的`chunk`，它的`metadata`才有`fd`和`bk`。
+
+``` c
+uint64_t *chunk1_hdr = chunk1_ptr - header_size;
+chunk1_hdr[0] = malloc_size;
+chunk1_hdr[1] &= ~1;
+```
+
+## [6] unsafe unlink后获得写能力
+
+在free掉chunk1后，触发unsafe unlink，这时chunk0_ptr[0]和chunk0_ptr[3]实际上指向同一个地址，因此当修改chunk0_ptr[3]时实际上也是修改chunk0_ptr[0].
 
 
 ![unsafe_unlink](/images/how2heap/unsafe_unlink.png)
