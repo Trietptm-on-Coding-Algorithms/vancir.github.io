@@ -70,18 +70,18 @@ int main()
 	printf("Now we free chunk1 so that consolidate backward will unlink our fake chunk, overwriting chunk0_ptr.\n");
 	printf("You can find the source of the unlink macro at https://sourceware.org/git/?p=glibc.git;a=blob;f=malloc/malloc.c;h=ef04360b918bceca424482c6db03cc5ec90c3e00;hb=07c18a008c2ed8f5660adba2b778671db159a141#l1344\n\n");
 	free(chunk1_ptr);
-
+	/* [6] */
 
 	printf("At this point we can use chunk0_ptr to overwrite itself to point to an arbitrary location.\n");
 	char victim_string[8];
 	strcpy(victim_string,"Hello!~");
 	chunk0_ptr[3] = (uint64_t) victim_string;
-
+	/* [7] */
 	printf("chunk0_ptr is now pointing where we want, we use it to overwrite our victim string.\n");
 	printf("Original value: %s\n",victim_string);
 	chunk0_ptr[0] = 0x4141414142424242LL;
 	printf("New Value: %s\n",victim_string);
-	/* [6] */
+	/* [8] */
 }
 ```
 
@@ -187,9 +187,49 @@ chunk1_hdr[0] = malloc_size;
 chunk1_hdr[1] &= ~1;
 ```
 
-## [6] unsafe unlink后获得写能力
+## [6] unsafe unlink
 
 在free掉chunk1后，触发unsafe unlink，这时chunk0_ptr[0]和chunk0_ptr[3]实际上指向同一个地址，因此当修改chunk0_ptr[3]时实际上也是修改chunk0_ptr[0].
 
+这里我们需要注意，free后进行的unlink操作是如何的，首先unlink操作如下：
 
-![unsafe_unlink](/images/how2heap/unsafe_unlink.png)
+``` c
+P->fd->bk = P->bk
+P->bk->fd = P->fd
+```
+
+因此，我们来理一下大概的堆块结构，因为`fd`和`bk`都指向堆块头，因此，当`P->fd`为`0x602050`时再计算`bk`时，会从`0x602050`处加上偏移`sizeof(uint64_t)*3`，也就是`0x602068`处，即我们原来的`chunk0_ptr`位置
+
+也就是说，此时在`0x602068`位置存储着地址`0x602058`
+| address  | pointer	 |
+|----------|-----------|
+| 0x602050 |P->fd			 |
+| 0x602058 |P->bk 		 |
+| 0x602060 |					 |
+| 0x602068 |Ｐ->fd->bk(chunk0_ptr)|
+
+那么同理以`P->bk`作为堆块头的话，
+
+| address  | pointer	 |
+|----------|-----------|
+| 0x602050 |P->fd			 |
+| 0x602058 |P->bk 		 |
+| 0x602060 |					 |
+| 0x602068 |Ｐ->bk->fd(chunk0_ptr)|
+
+`0x602068`相对`0x602058`是`fd`的位置，因此，此时在`0x602068`位置存储着地址`0x602050`
+
+以上就是整个free操作时进行的`unlink`操作
+
+## [7] 获取数组地址
+
+此刻`0x602068`位置存储着的是`0x602050`，因此`chunk0_ptr`指向`0x602050`，`chunk0_ptr[3]`指向`0x602068`，这时`chunk0_ptr[3] = (uint64_t) victim_string`实际上是将`victim_string`的数组首地址存入`0x602068`中
+
+## [8] 向数组地址写入数据
+
+此时，`0x602068`位置存储的是`victim_string`的地址，因此`chunk0_ptr`指向数组地址，`chunk0_ptr[0]`即为数组首地址(`0x7fffffffdbc0`)
+
+修改`chunk0_ptr`处的数据就是修改`victim_string`的数据
+
+
+![unsafe_unlink](/images/how2heap/unsafe_unlink.jpg)
