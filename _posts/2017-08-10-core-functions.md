@@ -1,5 +1,5 @@
 ---
-title: Heap Exploitation系列翻译-05 Core functions
+title: Heap Exploitation系列翻译-06 Core functions
 time: 2017-08-10
 tags: [CTF, pwn, heap]
 layout: post

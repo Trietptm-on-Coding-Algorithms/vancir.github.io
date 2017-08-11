@@ -1,5 +1,5 @@
 ---
-title: Heap Exploitation系列翻译-03 Bins and Chunks
+title: Heap Exploitation系列翻译-04 Bins and Chunks
 time: 2017-08-09
 tags: [CTF, pwn, heap]
 layout: post
