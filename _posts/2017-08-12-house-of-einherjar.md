@@ -7,9 +7,11 @@ categories: posts
 ---
 # House of Einherjar
 
-This house is not part of "The Malloc Maleficarum". This heap exploitation technique was given by [Hiroki Matsukuma](https://www.slideshare.net/codeblue_jp/cb16-matsukuma-en-68459606) in 2016. This attack also revolves around making 'malloc' return a nearly arbitrary pointer. Unlike other attacks, this requires just a single byte of overflow. There exists much more software vulnerable to a single byte of overflow mainly due to the famous ["off by one"](https://en.wikipedia.org/wiki/Off-by-one_error) error. It overwrites into the 'size' of the next chunk in memory and clears the `PREV_IN_USE` flag to 0. Also, it overwrites into `prev_size` (already in the previous chunk's data region) a fake size. When the next chunk is freed, it finds the previous chunk to be free and tries to consolidate by going back 'fake size' in memory. This fake size is so calculated so that the consolidated chunk ends up at a fake chunk, which will be returned by subsequent malloc.
+> 本文是对Dhaval Kapil的[Heap Exploitation](https://heap-exploitation.dhavalkapil.com/)系列教程的译文
 
-Consider this sample code (download the complete version [here](/files/heap-exploition/files/house_of_einherjar.c)):
+这个house并不是"The Malloc Maleficarum"的一部分. 这项堆漏洞技术是由[Hiroki Matsukuma](https://www.slideshare.net/codeblue_jp/cb16-matsukuma-en-68459606)于2016年提出. 这项攻击也是围绕着利用'malloc'来返回一个附近的任意指针. 和其他攻击不同, 它只要求1字节的溢出即可实现. 有许多1字节溢出的软件漏洞, 但大多是著名的["off by one"](https://en.wikipedia.org/wiki/Off-by-one_error)错误. 它覆写内存中next chunk的'size并清除了`PREV_IN_USE`标志为零, 当然也会向`prev_size`(已经在前一个堆块的数据域)覆写一个伪造的大小. 当next chunk被释放, 它会发现它前一个堆块是空闲状态并尝试通过内存中'我们之前伪造的大小'作偏移来合并堆块. 伪造大小是精心计算的因此合并后的堆块的范围在伪造堆块处截止, 这可以被后续的malloc所返回
+
+考虑以下示例代码(下载完整版本 [这里](/files/heap-exploition/files/house_of_einherjar.c)):
 
 ```c
 struct chunk_structure {
@@ -62,8 +64,8 @@ free(ptr2);
 victim = malloc(40);                  // Returns address 0x7ffee6b64ea0 !!
 ```
 
-Note the following:
+注意以下事项:
 
-1. The second chunk's size was given as `0xf8`. This simply ensured that the actual chunk's size has the least significant byte as `0` (ignoring the flag bits). Hence, it was a simple matter to set the previous in use bit to `0` without changing the size of this chunk.
-2. The `allotedSize` was further decreased by `sizeof(size_t)`. `allotedSize` is equal to the size of the complete chunk. However, the size allowed for data is `sizeof(size_t)` less, or the equivalent of the `size` parameter in the heap. This is because `size` and `prev_size` of the current chunk cannot be used, but the `prev_size` of the next chunk can be used.
-3. Fake chunk's forward and backward pointers were adjusted to pass the security check in `unlink`.
+1. 第二个堆块的大小为`0xf8`, 这只是确保了堆块的真实大小的最低有效字节为`0`(忽视标志位). 因此, 我们可以轻松的在不改变堆块大小的情况下设置`prev_in_use`位为`0`.
+2. `allotedSize`减去了`sizeof(size_t)`, `allotedSize`等于完整堆块的大小. 这是因为当前堆块的`size`和`prev_size`不可用, 但是next chunk的`prev_size`可用.
+3. 伪堆块的前向后向指针都经过调整, 以通过`unlink`的安全检查.
