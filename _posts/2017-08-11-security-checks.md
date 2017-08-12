@@ -10,7 +10,7 @@ categories: posts
 
 > 本文是对Dhaval Kapil的[Heap Exploitation](https://heap-exploitation.dhavalkapil.com/)系列教程的译文
 
-This presents a summary of the security checks introduced in glibc's implementation to detect and prevent heap related attacks.
+下表总结了glibc实现中为了检查并组织堆相关攻击的安全检查.
 
 | Function | Security Check | Error |
 | --- | --- | --- |

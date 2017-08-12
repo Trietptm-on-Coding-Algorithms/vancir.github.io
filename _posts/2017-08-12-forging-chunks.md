@@ -57,11 +57,6 @@ fastbin的状态变化如下:
 
 注意以下几点:
 
-* Another 'malloc' request for the fast chunk in the same bin list will result in segmentation fault.
-* Even though we request for 10 bytes and set the size of the forged chunk as 32 (0x20) bytes, both fall in the same fastbin range of 32-byte chunks.
-* This attack for small and large chunks will be seen later as 'House of Lore'.
-* The above code is designed for 64-bit machines. To run it on 32-bit machines, replace `unsigned long long` with `unsigned int` as pointers are now 4 bytes instead of 8 bytes. Also, instead of using 32 bytes as size for forged chunk, a small of the size of around 17 bytes should work.
-
 * 如果这里同一个bin链表再进行一次'malloc'申请fast chunk将导致段错误(segmentation fault)
 * 尽管我们申请10字节大小并且设置伪造堆块的大小为32(0x20)bytes, 但是都在32bytes的fastbins堆块范围内.
 * 换作small chunk和large chunk的攻击方法我们将在'House of Lore'见到
