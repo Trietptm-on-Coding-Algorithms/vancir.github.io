@@ -7,9 +7,11 @@ categories: posts
 ---
 # House of Lore
 
-This attack is basically the forging chunks attack for small and large bins. However, due to an added protection for large bins in around 2007 (the introduction of `fd_nextsize` and `bk_nextsize`) it became impractical. Here we shall see the case only for small bins. First, a small chunk will be placed in a small bin. It's `bk` pointer will be overwritten to point to a fake small chunk. Note that in the case of small bins, insertion happens at the `HEAD` and removal at the `TAIL`. A malloc call will first remove the authentic chunk from the bin making the attacker's fake chunk at the `TAIL` of the bin. The next malloc will return the attacker's chunk.
+> 本文是对Dhaval Kapil的[Heap Exploitation](https://heap-exploitation.dhavalkapil.com/)系列教程的译文
 
-Consider this sample code (download the complete version [here](/files/heap-exploition/files/house_of_lore.c)):
+这项攻击基本上是对于small bin和large bin的伪造堆块攻击. 然而, 因为约在2007年(对`fd_nextsize`和`bk_nextsize`的引入)一个新增的对large bin的保护, 该项技术变得不再可行. 这里我们只考虑small bin的情形. 首先, 一个small chunk会被放置在small bin中, 它的`bk`指针会被覆写成指向一个伪造的small chunk. 要注意的是在small bin的情况下, 插入操作发生在`首部`而移除操作发生在`尾部`. 一次malloc调用将首先移除bin中理应存在的堆块从而致使我们的伪堆块到了bin的`尾部`. 再下一次malloc调用就会返回攻击者的堆块.
+
+考虑以下示例代码(下载完整版本 [这里](/files/heap-exploition/files/house_of_lore.c)))
 
 ```c
 struct small_chunk {
@@ -64,12 +66,12 @@ malloc(len);                                    // points at address 0x1a44010
 victim = malloc(len);                           // points at address 0x7ffdeb37d060
 ```
 
-Notice that the steps needed for forging a small chunk are more due to the complicated handling of small chunks. Particular care was needed to ensure that `victim->bk->fd` equals `victim` for every small chunk that is to be returned from 'malloc', to pass the "malloc(): smallbin double linked list corrupted" security check. Also, extra 'malloc' calls were added in between to ensure that:
+要注意到, 构造一个small chunk需要更多的步骤, 这是因为small chunks复杂的处理操作. 需要特别小心以确保每一个将要使用malloc返回的small chunk都满足`victim->bk->fd == victim`, 以通过安全检查"malloc(): smallbin double linked list corrupted". 此外也添加了额外的'malloc'调用以确保:
 
-1. The first chunk goes to the unsorted bin instead of merging with the top chunk on freeing.
-2. The first chunk goes to the small bin as it does not satisfy a malloc request for `len + 0x10`.
+1. 第一个堆块在释放时会添加到unsorted bin而不是和top chunk合并
+2. 第一个堆块会进入到small bin中因为它不满足大小为`len + 0x10`的malloc申请.
 
-The state of the unsorted bin and the small bin are shown:
+unsorted bin和small bin的状态如下所示
 
 1. free(ptr).
   Unsorted bin:
@@ -83,7 +85,7 @@ The state of the unsorted bin and the small bin are shown:
 
   Small bin:
   > head <-> ptr <-> tail
-3. Pointer manipulations
+3. Pointer manipulations1
   Unsorted bin:
   > head <-> tail
 
@@ -102,4 +104,4 @@ The state of the unsorted bin and the small bin are shown:
   Small bin:
   > undefined <-> tail         [ Fake chunk is returned ]
 
-Note that another 'malloc' call for the corresponding small bin will result in a segmentation fault.
+注意, 再次对small bin进行'malloc'调用会造成段错误
