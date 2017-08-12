@@ -8,9 +8,11 @@ categories: posts
 
 # House of Spirit
 
-The House of Spirit is a little different from other attacks in the sense that it involves an attacker overwriting an existing pointer before it is 'freed'. The attacker creates a 'fake chunk', which can reside anywhere in the memory (heap, stack, etc.) and overwrites the pointer to point to it. The chunk has to be crafted in such a manner so as to pass all the security tests. This is not difficult and only involves setting the `size` and next chunk's `size`. When the fake chunk is freed, it is inserted in an appropriate binlist (preferably a fastbin). A future malloc call for this size will return the attacker's fake chunk. The end result is similar to 'forging chunks attack' described earlier.
+> 本文是对Dhaval Kapil的[Heap Exploitation](https://heap-exploitation.dhavalkapil.com/)系列教程的译文
 
-Consider this sample code (download the complete version [here](../assets/files/house_of_spirit.c)):
+House of Spirit 跟其他攻击略有不同, 在某种意义上来说, 它涉及到攻击者在指针释放之前去覆写已有指针. 攻击者可以在内存(堆,栈等处)的任意地方创造一个'伪堆块'并覆写一个指针去指向该伪堆块, 堆块必须通过这种方式进行构造才能通过所有的安全测试. 这其实并不难而且也只涉及到设置`size`和next chunk的`size`. 当伪堆块被释放, 它就会被插入到合适的bin链中(最好是fastbin). 在之后的malloc申请大小跟伪堆块大小一致时便能返回攻击者的伪堆块. 最终结果类似于早先描述的'forging chunks attack'
+
+考虑以下示例代码(下载完整版本: [这里](/files/heap-exploition/files/house_of_spirit.c)):
 
 ```c
 struct fast_chunk {
@@ -44,4 +46,4 @@ free(ptr);
 victim = malloc(0x30);              // 0x7ffe220c5cb0 address returned from malloc
 ```
 
-Notice that, as expected, the returned pointer is 0x10 or 16 bytes ahead of `fake_chunks[0]`. This is the address where the `fd` pointer is stored. This attack gives a surface for more attacks. `victim` points to memory on the stack instead of heap segment. By modifying the return addresses on the stack, the attacker can control the execution of the program.
+注意, 跟预期一样, 返回的指针在`fake_chunks[0]`之前0x10即16字节处. 这是存储`fd`指针的地址. 这次攻击提供了更多可能的攻击. `victim`指向栈上的内存而非堆段. 通过修改栈上的返回地址, 攻击者可以控制程序的执行.

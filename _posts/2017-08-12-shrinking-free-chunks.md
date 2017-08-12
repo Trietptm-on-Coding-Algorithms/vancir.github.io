@@ -11,7 +11,7 @@ categories: posts
 
 这项攻击在'[Glibc Adventures: The Forgotten Chunk](http://www.contextis.com/documents/120/Glibc_Adventures-The_Forgotten_Chunks.pdf)'中有详细描述. 它是利用单字节堆溢出(通常也被称作 '[off by one](https://en.wikipedia.org/wiki/Off-by-one_error)'). 这项攻击技术的目标是让'malloc'返回一个跟某一已分配堆块重叠的堆块, 该堆块目前也处在使用状态. 起始在内存中的3块连续堆块(`a`, `b`, `c`)被分配出来并且中间那块已经被释放了. 第一块堆块存在溢出漏洞, 可以利用溢出覆写中间堆块的'size'. 攻击者的最低有效字节是0, 也就'缩减'了堆块的大小. 接下来,从中间的空闲堆块中分配出两个small chunks(`b1` 和 `b2`). 第三个堆块的`prev_size`并没有得到更新, 因为`b`+`b->size`已经不再指向`c`, 实际上它指向的是在`c`之前的一块内存区域. 之后, `b1`和`c`都被释放, `c`仍旧认定`b`是处于空闲的(这是因为`prev_size`并没有更新,因此`c`-`c->prev_size`依旧指向`b`)并与`b`进行合并. 这也就导致了生成一个起始于`b`大空闲块并同时与`b2`相重叠了. 一个新的malloc将这个大堆块返回回来, 从而完成这项攻击. 下图总结了这些步骤:
 
-![Summary of shrinking free chunks attack steps](../assets/images/shrinking_free_chunks.png)
+![Summary of shrinking free chunks attack steps](/files/heap-exploitation/images/shrinking_free_chunks.png)
 
 _图片来源: https://www.contextis.com/documents/120/Glibc_Adventures-The_Forgotten_Chunks.pdf_
 

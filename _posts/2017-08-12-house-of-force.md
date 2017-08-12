@@ -11,7 +11,7 @@ Similar to 'House of Lore', this attack focuses on returning an arbitrary pointe
 
 This attack assumes an overflow into the top chunk's header. The `size` is modified to a very large value (`-1` in this example). This ensures that all initial requests will be services using the top chunk, instead of relying on `mmap`. On a 64 bit system, `-1` evaluates to `0xFFFFFFFFFFFFFFFF`. A chunk with this size can cover the entire memory space of the program. Let us assume that the attacker wishes 'malloc' to return address `P`. Now, any malloc call with the size of: `&top_chunk` - `P` will be serviced using the top chunk. Note that `P` can be after or before the `top_chunk`. If it is before, the result will be a large positive value (because size is unsigned). It will still be less than `-1`. An integer overflow will occur and malloc will successfully service this request using the top chunk. Now, the top chunk will point to `P` and any future requests will return `P`!
 
-Consider this sample code (download the complete version [here](../assets/files/house_of_force.c)):
+Consider this sample code (download the complete version [here](/files/heap-exploition/files/house_of_force.c)):
 
 ```c
 // Attacker will force malloc to return this pointer

@@ -9,7 +9,7 @@ categories: posts
 
 This house is not part of "The Malloc Maleficarum". This heap exploitation technique was given by [Hiroki Matsukuma](https://www.slideshare.net/codeblue_jp/cb16-matsukuma-en-68459606) in 2016. This attack also revolves around making 'malloc' return a nearly arbitrary pointer. Unlike other attacks, this requires just a single byte of overflow. There exists much more software vulnerable to a single byte of overflow mainly due to the famous ["off by one"](https://en.wikipedia.org/wiki/Off-by-one_error) error. It overwrites into the 'size' of the next chunk in memory and clears the `PREV_IN_USE` flag to 0. Also, it overwrites into `prev_size` (already in the previous chunk's data region) a fake size. When the next chunk is freed, it finds the previous chunk to be free and tries to consolidate by going back 'fake size' in memory. This fake size is so calculated so that the consolidated chunk ends up at a fake chunk, which will be returned by subsequent malloc.
 
-Consider this sample code (download the complete version [here](../assets/files/house_of_einherjar.c)):
+Consider this sample code (download the complete version [here](/files/heap-exploition/files/house_of_einherjar.c)):
 
 ```c
 struct chunk_structure {
