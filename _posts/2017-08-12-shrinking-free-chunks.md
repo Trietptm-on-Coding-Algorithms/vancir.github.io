@@ -7,13 +7,16 @@ categories: posts
 ---
 # Shrinking Free Chunks
 
-This attack was described in '[Glibc Adventures: The Forgotten Chunk](http://www.contextis.com/documents/120/Glibc_Adventures-The_Forgotten_Chunks.pdf)'. It makes use of a single byte heap overflow (commonly found due to the '[off by one](https://en.wikipedia.org/wiki/Off-by-one_error)'. The goal of this attack is to make 'malloc' return a chunk that overlaps with an already allocated chunk, currently in use. First 3 consecutive chunks in memory (`a`, `b`, `c`) are allocated and the middle one is freed. The first chunk is overflowed, resulting in an overwrite of the 'size' of the middle chunk. The least significant byte to 0 by the attacker. This 'shrinks' the chunk in size. Next, two small chunks (`b1` and `b2`) are allocated out of the middle free chunk. The third chunk's `prev_size` does not get updated as `b` + `b->size` no longer points to `c`. It, in fact, points to a memory region 'before' `c`.  Then, `b1` along with the `c` is freed. `c` still assumes `b` to be free (since `prev_size` didn't get updated and hence `c` - `c->prev_size` still points to `b`) and consolidates itself with `b`. This results in a big free chunk starting from `b` and overlapping with `b2`. A new malloc returns this big chunk, thereby completing the attack. The following figure sums up the steps:
+> 本文是对Dhaval Kapil的[Heap Exploitation](https://heap-exploitation.dhavalkapil.com/)系列教程的译文
+
+这项攻击在'[Glibc Adventures: The Forgotten Chunk](http://www.contextis.com/documents/120/Glibc_Adventures-The_Forgotten_Chunks.pdf)'中有详细描述. 它是利用单字节堆溢出(通常也被称作 '[off by one](https://en.wikipedia.org/wiki/Off-by-one_error)'). 这项攻击技术的目标是让'malloc'返回一个跟某一已分配堆块重叠的堆块, 该堆块目前也处在使用状态. 起始在内存中的3块连续堆块(`a`, `b`, `c`)被分配出来并且中间那块已经被释放了. 第一块堆块存在溢出漏洞, 可以利用溢出覆写中间堆块的'size'. 攻击者的最低有效字节是0, 也就'缩减'了堆块的大小. 接下来,从中间的空闲堆块中分配出两个small chunks(`b1` 和 `b2`). 第三个堆块的`prev_size`并没有得到更新, 因为`b`+`b->size`已经不再指向`c`, 实际上它指向的是在`c`之前的一块内存区域. 之后, `b1`和`c`都被释放, `c`仍旧认定`b`是处于空闲的(这是因为`prev_size`并没有更新,因此`c`-`c->prev_size`依旧指向`b`)并与`b`进行合并. 这也就导致了生成一个起始于`b`大空闲块并同时与`b2`相重叠了. 一个新的malloc将这个大堆块返回回来, 从而完成这项攻击. 下图总结了这些步骤:
 
 ![Summary of shrinking free chunks attack steps](../assets/images/shrinking_free_chunks.png)
 
-_Image Source: https://www.contextis.com/documents/120/Glibc_Adventures-The_Forgotten_Chunks.pdf_
+_图片来源: https://www.contextis.com/documents/120/Glibc_Adventures-The_Forgotten_Chunks.pdf_
 
-Consider this sample code (download the complete version [here](../assets/files/shrinking_free_chunks.c)):
+考虑以下示例代码(下载完整版本: [这里](/files/heap-exploitation/files/shrinking_free_chunks.c))
+
 
 ```c
 struct chunk_structure {
@@ -72,6 +75,6 @@ memset(big, 0x41, 0x200 - 1);
 printf("%s\n", (char *)b2);       // Prints AAAAAAAAAAA... !
 ```
 
-`big` now points to the initial `b` chunk and overlaps with `b2`. Updating contents of `big` updates contents of `b2`, even when both these chunks are never passed to `free`.
+`big`现在指向一开始的`b`堆块并且与`b2`重叠. 更改`big`的内容会改变`b2`的内容, 即时两个堆块都不会被释放.
 
-Note that instead of shrinking `b`, the attacker could also have increased the size of `b`. This will result in a similar case of overlap. When 'malloc' requests another chunk of the increased size, `b` will be used to service this request. Now `c`'s memory will also be part of this new chunk returned.
+值得注意的是, 与缩减`b`块相反, 攻击者其实也可以增加`b`块的大小. 这也同样可以造成类似情况的重叠. 当'malloc'申请另一个更大的堆块, `b`就会用于满足这个申请需求, 这样`c`的内存也会作为新堆块的一部分返回回来.
