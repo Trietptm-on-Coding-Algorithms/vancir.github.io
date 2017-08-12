@@ -7,11 +7,11 @@ categories: posts
 ---
 # House of Force
 
-Similar to 'House of Lore', this attack focuses on returning an arbitrary pointer from 'malloc'. Forging chunks attack was discussed for fastbins and the 'House of Lore' attack was discussed for small bins. The 'House of Force' exploits the 'top chunk'. The topmost chunk is also known as the 'wilderness'. It borders the end of the heap (i.e. it is at the maximum address within the heap) and is not present in any bin. It follows the same format of the chunk structure.
+与'House of Lore'类似, 这项攻击重点在于从'malloc'返回一个任意的指针. 伪造堆块攻击讨论的是fastbins的情况而'House of Lore'讨论的则是small bin的情况. 在这里'House of Force'则是利用了'top chunk'. topmost chunk 也被称作 'wilderness', 它以堆的末尾作为边界(比如, 它是堆的最大地址)并且不会出现在任何bin链中. 它符合相同的堆块结构格式.
 
-This attack assumes an overflow into the top chunk's header. The `size` is modified to a very large value (`-1` in this example). This ensures that all initial requests will be services using the top chunk, instead of relying on `mmap`. On a 64 bit system, `-1` evaluates to `0xFFFFFFFFFFFFFFFF`. A chunk with this size can cover the entire memory space of the program. Let us assume that the attacker wishes 'malloc' to return address `P`. Now, any malloc call with the size of: `&top_chunk` - `P` will be serviced using the top chunk. Note that `P` can be after or before the `top_chunk`. If it is before, the result will be a large positive value (because size is unsigned). It will still be less than `-1`. An integer overflow will occur and malloc will successfully service this request using the top chunk. Now, the top chunk will point to `P` and any future requests will return `P`!
+这项攻击技术假定在top chunk的首部存在溢出. 它的`size`可以被修改为一个非常大的值(在本例中是`-1`), 这能够确保所有初始申请将会使用top chunk来满足要求, 而非依赖于`mmap`. 在64位系统, `-1`即是`0xFFFFFFFFFFFFFFFF`, 一个这样大小的堆块可以覆盖程序的整个内存空间. 让我们假定一下, 攻击者希望'malloc'返回地址'P'. 现在, 任何大小为`&top_chunk` - `P`的malloc调用都会使用top chunk来满足. 要注意, `P`可以在`top_chunk`之前或之后. 如果是在前面, 结果就得是一个很大的整数(因为size是无符号的). 但它仍旧是小于`-1`的. 在发生完整数溢出并且malloc使用top chunk很好的满足申请需求后, 此刻, top chunk就会指向`P`并且之后的任何申请都会直接返回`P`!
 
-Consider this sample code (download the complete version [here](/files/heap-exploition/files/house_of_force.c)):
+考虑以下示例代码(下载完整版本: [这里](/files/heap-exploition/files/house_of_force.c)):
 
 ```c
 // Attacker will force malloc to return this pointer
@@ -57,10 +57,10 @@ malloc(requestSize);                                                  // At 0x13
 ptr = malloc(100);                                // At 0x601060 !! (Same as 'victim')
 ```
 
-'malloc' returned an address pointing to `victim`.
+'malloc' 返回一个指向`victim`的地址
 
-Note the following things that we need to take care:
+以下几样需要我们注意:
 
-1. While deducing the exact pointer to `top_chunk`, 0 out the three lower bits of the previous chunk to obtain correct size.
-2. While calculating requestSize, an additional buffer of around `8` bytes was reduced. This was just to counter the rounding up malloc does while servicing chunks. Incidentally, in this case, malloc returns a chunk with `8` additional bytes than requested. Notice that this is machine dependent.
-3. `victim` can be any address (on heap, stack, bss, etc.).
+1. 当计算`to_chunk`的准确指针时, 要将prev_size的三个最低位清零, 以获得准确的大小.
+2. 当计算requestSize, 需要算进一个额外的缓冲区, 这只是用于抵消分配堆块时进行的四舍五入. 顺便一提, 在这种情况下, malloc 会返回一个比申请大小多8字节的堆块. 要注意, 这是与机器相关的.
+3. `victim`可以是任意地址(堆,栈,bss段等地址)
