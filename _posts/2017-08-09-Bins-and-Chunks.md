@@ -60,8 +60,6 @@ fastbins 划分为10个，其中每一个bins都是一个单向链表，并在�
 
 ## Large bins
 
-There are 63 large bins. Each bin maintains a doubly-linked list. A particular large bin has chunks of different sizes, sorted in decreasing order (i.e. largest chunk at the 'HEAD' and smallest chunk at the 'TAIL'). Insertions and removals happen at any position within the list.
-
 一共有63个large bins，每一个bin都是一个双向链表，每一个large bin都有着不同的大小，以递减的顺序排列(比如，最大的堆块位于链表首部(HEAD),而最小的堆块在链表尾部(TAIL))。插入和删除操作都可以在链表的任意一个位置进行。
 
 前32个bins包括的堆块都以64字节大小间隔

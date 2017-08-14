@@ -55,8 +55,6 @@ categories: posts
 
 ## unlink(AV, P, BK, FD)
 
-This is a defined macro which removes a chunk from a bin.
-
 以下是从一个bin中移除chunk的简要定义
 
 1. 检查chunk的size是否等于next chunk的prev_size，如果不等，则抛出error(corrupted size vs. prev\_size)
