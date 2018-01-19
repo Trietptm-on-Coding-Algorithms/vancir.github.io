@@ -1,23 +1,14 @@
 markdown: rdiscount
-permalink: /:title/
+permalink: /:year/:month/:day/:title/
 url: http://www.vancir.com
-name: 89Ao
-author: AoGang
-qq: 103230005
-email: 89ao@live.com
-duoshuo: 89ao
-#beian: 浙ICP备12026616号
-#cnzz: 119959
-weibo: 2067815867
-gitcafe: 89ao
-github: 89ao
+name: Vancir
+author: Vancir
+qq: 493287288
+email: vancirprince@gmail.com
+github: vancir
 highlighter: true
 safe: true
 paginate: 15
-about: "攻城狮一头，PM狗（project）。	
-热爱Linux，开源爱好者，喜欢虚拟化，github等。		
-OS洁癖与性能压榨狂魔。  	
-偶尔微博，偶尔wow。"
 plugins: [jekyll-paginate]
 defaults:
  -
@@ -25,4 +16,4 @@ defaults:
     path: "_posts" # 一个空的字符串代表项目中所有的文件
   values:
     layout: "post"
-    author: "89ao"
+    author: "Vancir"
