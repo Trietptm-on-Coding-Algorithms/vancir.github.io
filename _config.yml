@@ -8,7 +8,7 @@ email: vancirprince@gmail.com
 github: vancir
 twitter: vancirprince
 highlighter: true
-# exclude: ["Rakefile", "CNAME", "README.md"]
+exclude: ["Rakefile", "CNAME", "README.md"]
 safe: true
 paginate: 15
 # Gems
