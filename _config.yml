@@ -1,9 +1,22 @@
-permalink: :categories/:title
-markdown: kramdown
-highlight: true
-kramdown:
-    input: GFM
-
-name: Vancir
-description: Security vulnerability experience
-url: www.vancir.com
+markdown: rdiscount
+permalink: /:year/:month/:day/:title/
+url: http://www.vancir.com
+name: vancir
+author: vancir
+qq: 493287288
+email: vancirprince@gmail.com
+github: vancir
+twitter: vancirprince
+highlighter: true
+# exclude: ["Rakefile", "CNAME", "README.md"]
+safe: true
+paginate: 15
+# Gems
+plugins: [jekyll-paginate]
+defaults:
+ -
+  scope:
+    path: "_posts" # 一个空的字符串代表项目中所有的文件
+  values:
+    layout: "post"
+    author: "vancir"
