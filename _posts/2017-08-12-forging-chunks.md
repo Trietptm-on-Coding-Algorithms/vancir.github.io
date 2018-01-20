@@ -44,14 +44,21 @@ printf("%s\n", victim);       // Prints "attacker's data" !!
 fastbin的状态变化如下:
 
 1. 'a' freed.
+```
   > head -> a -> tail
+```
 2. a's fd pointer changed to point to 'forged chunk'.
+```
   > head -> a -> forged chunk -> undefined (fd of forged chunk will in fact be holding attacker's data)
+```
 3. 'malloc' request
+```
   > head -> forged chunk -> undefined
+```
 4. 'malloc' request by victim
+```
   > head -> undefined   [ forged chunk is returned to the victim ]
-
+```
 注意以下几点:
 
 * 如果这里同一个bin链表再进行一次'malloc'申请fast chunk将导致段错误(segmentation fault)

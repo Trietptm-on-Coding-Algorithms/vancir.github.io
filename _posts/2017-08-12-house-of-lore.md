@@ -72,34 +72,43 @@ victim = malloc(len);                           // points at address 0x7ffdeb37d
 unsorted bin和small bin的状态如下所示
 
 1. free(ptr).
-  Unsorted bin:
-  > head <-> ptr <-> tail
+```
+Unsorted bin:
+> head <-> ptr <-> tail
 
-  Small bin:
-  > head <-> tail
+Small bin:
+> head <-> tail
+```
 2. malloc(len + 0x10);
-  Unsorted bin:
-  > head <-> tail
+```
+Unsorted bin:
+> head <-> tail
 
-  Small bin:
-  > head <-> ptr <-> tail
+Small bin:
+> head <-> ptr <-> tail
+```
 3. Pointer manipulations1
-  Unsorted bin:
-  > head <-> tail
+```
+Unsorted bin:
+> head <-> tail
 
-  Small bin:
-  > undefined <-> fake_chunk <-> ptr <-> tail
+Small bin:
+> undefined <-> fake_chunk <-> ptr <-> tail
+```
 4. malloc(len)
-  Unsorted bin:
-  > head <-> tail
+```
+Unsorted bin:
+> head <-> tail
 
-  Small bin:
-  > undefined <-> fake_chunk <-> tail
+Small bin:
+> undefined <-> fake_chunk <-> tail
+```
 5. malloc(len)
-  Unsorted bin:
-  > head <-> tail
+```
+Unsorted bin:
+> head <-> tail
 
-  Small bin:
-  > undefined <-> tail         [ Fake chunk is returned ]
-
+Small bin:
+> undefined <-> tail         [ Fake chunk is returned ]
+```
 注意, 再次对small bin进行'malloc'调用会造成段错误

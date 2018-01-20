@@ -1,5 +1,5 @@
 ---
-title: <<C陷阱与缺陷>>阅读笔记 
+title: C陷阱与缺陷 阅读笔记 
 tags: [c/c++]
 layout: post
 categories: c/c++
@@ -283,7 +283,7 @@ void bufwrite(char *p, int n){
     n -= k;
   }
 }
-``
+```
 ## 3.7 求值顺序
 
 C语言中只有四个运算符(&&, ||, ?: 和 ,), 存在规定的求值顺序

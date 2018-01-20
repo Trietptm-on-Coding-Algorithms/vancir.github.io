@@ -29,18 +29,29 @@ f = malloc(10);     // 0xa04010   - Same as 'd' !
 fastbin的状态变化如下:
 
 1. 'a' freed.
+```
   > head -> a -> tail
+```
 2. 'b' freed.
+```
   > head -> b -> a -> tail
+```
 3. 'a' freed again.
+```
   > head -> a -> b -> a -> tail
+```
 4. 'malloc' request for 'd'.
+```
   > head -> b -> a -> tail      [ 'a' is returned ]
+```
 5. 'malloc' request for 'e'.
+```
   > head -> a -> tail           [ 'b' is returned ]
+```
 6. 'malloc' request for 'f'.
+```
   > head -> tail                [ 'a' is returned ]
-
+```
 现在, 'd'和'f'指针都指向同一个内存地址. 其中一个的任意改变都会影响到另外一个.
 
 要注意, 这个例子对那些大小在smallbin范围内的堆块不适用. 在第一次释放时, 'a'的next chunk将会把'prev_inuse'标志设为0, 在第二次释放时, 会因为改标志为0而抛出error(double free or corruption (!prev)")

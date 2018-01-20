@@ -32,7 +32,7 @@ free(buffer);
 
 文档中 'malloc' 和 'free' 有如下说明：
 
-* **malloc**:
+* *malloc*:
 
   ```c
   /*
@@ -52,7 +52,7 @@ free(buffer);
   */
   ```
 
-* **free**:
+* *free*:
 
   ```c
   /*
