@@ -17,7 +17,7 @@ categories:
 
 翻译前言: 这是解决Flareon4第3题的第4种方法, 也是这个系列翻译的完结篇. 作者用的WinAppDbg跟ODScript有类似的感觉, 虽然不及之前2篇让人耳目一新, 但这是作者对于WinAppDbg写的简易教程的第4篇, 如果感兴趣可以点击原文链接从其它3篇WinAppDbg的教程开始阅读. 
 
-ps: 程序可以从附件下载, 程序可能会报毒但是安全的, 建议在虚拟机下操作, 解压密码: www.pediy.com
+文中分析的程序你可以点击此处下载: [greek_to_me.zip](http://od7mpc53s.bkt.clouddn.com/greek_to_me.zip), 解压密码: www.pediy.com
 
 如果朋友想看我之前翻译的用其他3种全新的方法解决该题的文章, 可以点击以下链接:
 
