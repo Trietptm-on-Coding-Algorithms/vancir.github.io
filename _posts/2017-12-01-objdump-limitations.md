@@ -1,6 +1,6 @@
 ---
 title: 基于Objdump的反汇编器存在的限制
-tags: [objdump]
+tags: [RE]
 layout: post
 categories: crack
 ---
