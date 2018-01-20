@@ -5,8 +5,6 @@ layout: post
 categories: installation
 ---
 
-# TaintDroid 动态污点分析工具部署过程
-
 TaintDroid是一款著名的Android动态污点分析工具。我的安装环境是`ubuntu 16.04 x64`
 
 ## 安装 JDK 6u45

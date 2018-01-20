@@ -4,9 +4,6 @@ tags: [unpack]
 layout: post
 categories: crack
 ---
-
-# UPX 3.07 (Unpacking + DLL + Overlay) 脱壳笔记
-
 Upx作为入门级的简单压缩壳，脱壳方法其实很简单。这里主要介绍的是使用`ImportREC手动脱壳`以及`Dll脱壳`。
 
 ## ImportREC手动脱壳

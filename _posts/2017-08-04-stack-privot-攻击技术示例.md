@@ -6,7 +6,7 @@ categories: tutorials
 ---
 
 
-# 什么是stack privot?
+## 什么是stack privot?
 
 stack privot字面意思就是栈劫持，是指劫持栈指针指向攻击者放置有利用代码的空间去，比如指向了攻击者构造好的ROP链。
 
@@ -17,7 +17,7 @@ stack privot字面意思就是栈劫持，是指劫持栈指针指向攻击者�
 
 如果我们想要劫持栈指针，那么我们所需要的gadget就必须能够控制栈指针，比如`pop sp` `jmp sp` `add sp` `sub sp`之类的gadgets都可能拿来使用。
 
-# 漏洞分析
+## 漏洞分析
 
 本节示例的漏洞程序可以从此处下载： [stack_privot](http://od7mpc53s.bkt.clouddn.com/stack_privot)
 
@@ -50,7 +50,7 @@ s的大小为0x20，而总共能写入的字符只有50，再加上ebp，我们�
 
 那么这样的话，我们就可以借由`jmp esp`将执行流转移到栈上执行。而转移到栈上执行后，我们还需要对esp减上偏移(在返回地址时esp已经和ebp指向同一个地址)，使之转移到我们的buf中继续执行，而buf中我们事先就输入好了shellcode，那么我们在劫持完成后便可以获得一个shell
 
-# 攻击代码
+## 攻击代码
 
 ``` python
 from pwn import *

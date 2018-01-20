@@ -7,7 +7,7 @@ categories: tutorials
 
 > 本文是对shellphish的[how2heap](https://github.com/shellphish/how2heap)系列堆漏洞课程的实践笔记
 
-# 示例源码
+## 示例源码
 
 ``` c
 #include <stdio.h>
@@ -67,7 +67,7 @@ int main()
 }
 ```
 
-# 漏洞分析
+## 漏洞分析
 
 这节是上节fastbin dup的扩展，目的是获得一个指向任意地址的指针，在这里我们是获得一个栈的指针
 

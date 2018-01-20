@@ -5,8 +5,6 @@ layout: post
 categories: crack
 ---
 
-# 基于Objdump的反汇编器存在的限制
-
 objdump总是会期望处理一个被gcc很好地编译生成的可执行文件，然而通常情况下的程序文件，有些可能就是直接由代码汇编，有些却使用了一些技巧来对抗反汇编。接下来就大致介绍一下objdump存在的一些缺陷
 
 ## objdump过于依赖节区头(section headers)

@@ -5,7 +5,7 @@ layout: post
 categories: tutorials
 ---
 
-# 什么是ret2syscall
+## 什么是ret2syscall
 
 ret2syscall即return to system call，与ret2text和ret2shellcode类似，即在返回地址处进行*系统调用*，关于系统调用，可以阅读维基百科上的相关介绍——[系统调用](https://zh.wikipedia.org/wiki/%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8)
 
@@ -22,7 +22,7 @@ ret2syscall即return to system call，与ret2text和ret2shellcode类似，即在
 > 2. 把函数参数存入其它通用寄存器；
 > 3. 触发 0x80 号中断（int 0x80）。
 
-# ret2syscall示例代码
+## ret2syscall示例代码
 
 ``` c
 #include <stdio.h>
@@ -46,7 +46,7 @@ int main(void)
 ```
 
 本节示例的漏洞程序可以从此处下载：[ret2syscall](http://od7mpc53s.bkt.clouddn.com/ret2syscall)
-# 漏洞分析
+## 漏洞分析
 
 那么我们现在要通过系统调用执行以下命令获得一个shell
 ``` c
@@ -113,7 +113,7 @@ Unique gadgets found: 4
 
 通常我们gadget的利用方法是`address of gadget + param for register`，那么接下来我们可以构造对应参数进行系统调用
 
-# 攻击代码
+## 攻击代码
 
 ``` python
 #encoding:utf-8

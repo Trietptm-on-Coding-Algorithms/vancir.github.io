@@ -7,7 +7,7 @@ categories: tutorials
 
 > 本文是对shellphish的[how2heap](https://github.com/shellphish/how2heap)系列堆漏洞课程的实践笔记
 
-# 示例代码
+## 示例代码
 
 ``` c
 #include <stdio.h>
@@ -84,7 +84,7 @@ int main()
 }
 ```
 
-# 样例输出
+## 样例输出
 
 ```
 Welcome to unsafe unlink 2.0!
@@ -124,7 +124,7 @@ New Value: BBBBAAAA
 ```
 
 
-# 漏洞分析
+## 漏洞分析
 
 这节我们学习`unsafe unlink`，即不安全的unlink解链操作。当我们得到了一个可以进行unlink操作的地址指针的话，就可以使用这项技术。最常见的利用情景就是我们有一个可以溢出的漏洞函数同时拥有一个全局指针时。
 

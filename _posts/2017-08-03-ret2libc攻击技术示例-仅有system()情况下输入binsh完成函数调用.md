@@ -5,11 +5,11 @@ categories: tutorials
 tags: [CTF, pwn, rop]
 ---
 
-# 情景描述
+## 情景描述
 
 当程序中并没有直接的`"/bin/sh"`字符串时，我们该如何通过ret2libc技术实现`system("/bin/sh")`的执行呢？这时我们就需要借助`gets` `read`之类的函数，读入我们输入的`"/bin/sh"`到缓冲区后，然后依照ret2libc1的套路一样，将`"/bin/sh"`的地址，也就是缓冲区的地址，模拟传入实现函数调用
 
-# 示例代码
+## 示例代码
 
 ``` c
 #include <stdio.h>
@@ -56,7 +56,7 @@ PIE       : disabled
 RELRO     : Partial
 ```
 
-# 漏洞分析
+## 漏洞分析
 
 利用`gets()`函数，我们可以将`"/bin/sh"`写入到buf2中(buf1也可以)，但是这时需要注意，我们要合理设置`gets()`函数执行完后的返回地址，我们要保证函数执行完后依旧返回到rop链的下部分继续执行，因此我们需要一个gadget作为`gets()`返回地址。
 
@@ -78,7 +78,7 @@ Unique gadgets found: 7
     59: 0804a080   100 OBJECT  GLOBAL DEFAULT   25 buf2
 ```
 
-# 攻击代码
+## 攻击代码
 
 ``` python
 from pwn import *

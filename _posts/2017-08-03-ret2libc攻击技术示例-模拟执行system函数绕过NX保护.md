@@ -5,13 +5,13 @@ layout: post
 categories: tutorials
 ---
 
-# 什么是ret2libc？
+## 什么是ret2libc？
 
 ret2libc即return to libc，返回到系统函数库执行的攻击方法。
 
 当程序开启`NX`保护时，我们的shellcode无法在缓冲区中执行，但是又没有直接的可以使用的system("/bin/sh")代码片段。这时，我们就可以通过使用libc中的system函数，并模拟system函数的执行过程，将"/bin/sh"参数传入system函数并执行，从而获取shell
 
-# ret2libc示例代码
+## ret2libc示例代码
 
 ``` c
 #include <stdio.h>
@@ -57,7 +57,7 @@ NX        : ENABLED
 PIE       : disabled
 RELRO     : Partial
 ```
-# 漏洞分析
+## 漏洞分析
 
 在调用函数比如这里我们想要执行`call system`这条指令，那么cpu在调用函数的过程中会完成哪些工作呢？
 
@@ -83,7 +83,7 @@ Strings information
 ```
 值得注意的是，这里是`system@plt`，跟我们所知的system函数还是有所区别的，这相关于linux的延迟绑定，我们暂不作深究。
 
-# 攻击代码
+## 攻击代码
 
 ``` python
 from pwn import *

@@ -7,7 +7,7 @@ categories: tutorials
 
 > 本文是对shellphish的[how2heap](https://github.com/shellphish/how2heap)系列堆漏洞课程的实践笔记
 
-# 示例源码
+## 示例源码
 
 ``` c
 #include <stdio.h>
@@ -49,7 +49,7 @@ int main()
 }
 ```
 
-# 漏洞分析
+## 漏洞分析
 
 程序首先为`a`和`b`分别申请了`512bytes`和`256bytes`的空间，随后将字符串`"this is A!"`对空间`a`进行标记后将`a`释放，释放完`a`后又继续为`c`申请了`500bytes`的空间并将`"this is C!"`对`c`进行标记，最后将`a`和`c`的空间以及存储的字符串都打印出来。
 

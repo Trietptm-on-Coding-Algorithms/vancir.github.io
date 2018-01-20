@@ -7,7 +7,7 @@ categories: tutorials
 
 > 本文是对shellphish的[how2heap](https://github.com/shellphish/how2heap)系列堆漏洞课程的实践笔记
 
-# 示例源码
+## 示例源码
 
 ``` c
 #include <stdio.h>
@@ -46,7 +46,7 @@ int main()
 }
 ```
 
-# 漏洞分析
+## 漏洞分析
 
 程序首先向操作系统申请了3块大小为`8bytes`的内存，而后依次释放 `a` `b` `a`，再重新申请了3块大小依旧为`8bytes`的内存。我们通过巧妙地欺骗glibc的`free`操作从而可以泄露出一块已经被分配的内存指针
 

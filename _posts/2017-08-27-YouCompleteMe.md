@@ -5,29 +5,28 @@ layout: post
 categories: installation
 ---
 
-# 安装
 
 > 首先你需要安装vim的vundle插件, 并要求vim版本高于7.3.584
 
-1. 首先需要在`.vimrc`中添加如下代码
+## 首先需要在`.vimrc`中添加如下代码
 ``` bash
 Plugin 'valloric/youcompleteme'
 ```
 然后进入vim, 在Normal模式中输入`:PluginInstall`进行下载
 
-2. 检查仓库的完整性
+## 检查仓库的完整性
 
 ``` bash
 cd ~/.vim/bundle/youcompleteme
 git submodule update --init --recursive
 ```
 
-3. 下载安装最新版的 libclang
+## 下载安装最新版的 libclang
 ``` bash
 sudo aptitude install llvm-3.9 clang-3.9 libclang-3.9-dev libboost-all-dev
 ```
 
-4. 编译构建`ycm_core`库
+## 编译构建`ycm_core`库
 
 ``` bash
 mkdir ~/.ycm_build
@@ -39,7 +38,7 @@ cmake -G "Unix Makefiles" -DUSE_SYSTEM_BOOST=ON -DEXTERNAL_LIBCLANG_PATH=/usr/li
 cmake --build . --target ycm_core --config Release
 ```
 
-5. 配置
+## 配置
 
 复制 .ycm_extra_conf.py 文件
 ``` bash

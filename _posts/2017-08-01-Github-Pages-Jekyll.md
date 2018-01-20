@@ -5,7 +5,7 @@ categories: installation
 tags: [tools]
 ---
 
-# 使用Github Pages建立博客
+## 使用Github Pages建立博客
 
 每个Github账户都能使用Github Pages这样一个免费空间为自己搭建一个博客，像很多Hexo之类的博客就很流行，也很美观，但是实际上写起博客来还是会很重，而且定制化不强，其实主要还是博客都是别人帮你直接弄好的，你用模板就行了，所以经常博客出现了什么问题，也没有很好的办法解决，自己去定制的话，也会很麻烦。
 当然，你去把博客的源码完整地读一遍也是可以的。
@@ -13,7 +13,7 @@ tags: [tools]
 Github Pages现在建立博客很简单，只需要新建一个名为 username.github.io 的仓库，github会自动为你的仓库建立在github pages上（以前是需要自己进入仓库设置里手动点选github pages才行的）
 
 
-# 为什么选择Jekyll
+## 为什么选择Jekyll
 
 [Jekyl](http://jekyll.com.cn/)l是一个静态博客生成器，github pages也支持jekyll，也就是说我们只需要将jekyll生成好的文件上传到你的username.github.io仓库里，github pages就会自动帮你构建jekyll环境，将你的静态博客运行起来。
 
@@ -25,7 +25,7 @@ Github Pages现在建立博客很简单，只需要新建一个名为 username.g
 * 使用jekyll设置好之后，我只需要本地写好markdown博文后push到我的github仓库上，即可更新博文，相比wordpress更加直接快速，且易于保存
 * 可定制性很强，虽然排版会很花时间，但是我可以自由地管理各个参数。而托管在github pages也省去了我管理服务器的麻烦。
 
-# 来吧，本地搭建jekyll环境
+## 来吧，本地搭建jekyll环境
 
 本地搭建jekyll环境的话，可以说jekyll的官方文档很贴心详细，讲的浅显易懂，所以我大部分操作都是根据官方文档进行的，当然也有借鉴别人的经验。
 
@@ -55,7 +55,7 @@ gem 'github-pages'
 #添加好后在终端执行bundle install
 ```
 
-# jekyll和bundle的可用命令
+## jekyll和bundle的可用命令
 
 bundle的命令比较简单，但是我们之后都需要用bundle来运行jekyll
 
@@ -100,7 +100,7 @@ $ jekyll serve --no-watch
 
 正常来说，我们只需要用 jekyll build 和jekyll serve就行了，当然在前面还要加上bundle exec
 
-# jekyll 基本结构
+## jekyll 基本结构
 
 关于jekyll基本结构，最好还是看[官方文档](http://jekyll.com.cn/docs/structure/)，文档里有很详细的说明，一般的jekyll网站目录结构如下
 
@@ -133,7 +133,7 @@ $ jekyll serve --no-watch
 
 ok,那么开始生成自己的网站目录吧
 
-# 建立本地的project
+## 建立本地的project
 
 我们将github上的username.github.io仓库clone到本地后，按照上面的目录结构，将各个文件夹都建立起来之后，就可以使用jekyll运行了。
 
@@ -146,7 +146,7 @@ $ bundle exec jekyll serve
 
 这里我就不细说啦，因为太多了。看代码就是了
 
-# 代码高亮
+## 代码高亮
 
 搭建好我们的博客后，我们要将代码高亮。这里其实我被困扰很久，因为我尝试的几个markdown解析器，都无法正确解析markdown的代码块格式并正确着色，因此我这里是使用的[highlight.js](https://highlightjs.org/)，之后在我们的header.html里添加如下代码调用即可
 ```html
@@ -155,7 +155,7 @@ $ bundle exec jekyll serve
 <script>hljs.initHighlightingOnLoad();</script>
 ```
 
-# 域名绑定
+## 域名绑定
 
 其实就是将www.vancir.com的dns解析到我的vancir.github.io，方法很简单，但是容易出问题
 
@@ -169,7 +169,7 @@ ping vancir.github.io
 ```
 得到ip地址后在域名解析处填好就可以了。
 
-# 心得
+## 心得
 
 整个差不多弄完了，当然你也可以弄些比如rss，mathjax，评论之类的功能。其实整个站都是比较简单的，只是在很多细节问题上，常常会困扰很久。
 但最起码的，css的排版样式问题是最最花时间了！

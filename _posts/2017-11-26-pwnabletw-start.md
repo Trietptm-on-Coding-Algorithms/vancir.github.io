@@ -5,9 +5,6 @@ layout: post
 categories: writeups
 ---
 
-
-# Start
-
 用IDA打开，程序其实是单纯用汇编写的，通过系统调用来输出`Let's start the CTF:`并获取输入。
 
 ``` asm

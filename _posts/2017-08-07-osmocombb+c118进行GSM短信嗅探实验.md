@@ -5,7 +5,7 @@ layout: post
 categories: installation
 ---
 
-# 0x01 实验环境准备
+## 0x01 实验环境准备
 
 * ubuntu 12.04.5 desktop i386
 * 摩托罗拉 C118 - 淘宝价35.00元
@@ -24,7 +24,7 @@ categories: installation
 
 因为这个实验是前段时间完成的，中间安装的步骤都没有截图下来，所以理解和操作起来可能会有点懵逼。这里可以推荐youtube上的一个视频，也可以跟着他的做，就是画质很渣，看看大致怎样一个流程就是了：[c118-osmocombb-gsm sniffer-嗅探短信](https://www.youtube.com/watch?v=hrXVWRAqJQU)
 
-# 0x02 依赖软件包的安装
+## 0x02 依赖软件包的安装
 
 ``` bash
 sudo aptitude install libusb-0.1-4 libpcsclite1 libccid pcscd libtool shtool autoconf git-core pkg-config make gcc build-essential libgmp3-dev libmpfr-dev libx11-6 libx11-dev texinfo flex bison libncurses5 libncurses5-dbg libncurses5-dev libncursesw5 libncursesw5-dbg libncursesw5-dev zlibc zlib1g-dev libmpfr4 libmpc-dev libpcsclite-dev subversion libosip2-dev libortp-dev libusb-1.0-0-dev g++ sqlite3 libsqlite3-dev erlang libreadline6-dev libncurses5-dev libtalloc-dev   wireshark
@@ -32,7 +32,7 @@ sudo aptitude install libusb-0.1-4 libpcsclite1 libccid pcscd libtool shtool aut
 
 这些依赖关系就得解决好，有多少装多少，不然到后面手动一个个修复依赖很麻烦。
 
-# 0x03 手动安装talloc
+## 0x03 手动安装talloc
 
 ``` bash
 cd ~/Documents
@@ -46,7 +46,7 @@ sudo make install
 
 安装好上一步的依赖之后，我们还需要手动安装talloc，否则貌似是在编译libosmocore的过程会出现缺少该依赖的问题。不过你也可以到时再手动安装，这里我就统一先把都安装好吧。
 
-# 0x04 搭建ARM交叉编译环境
+## 0x04 搭建ARM交叉编译环境
 
 这里我们就统一建立了一个名为osmocombb的文件夹作为我们这次实验的总文件夹把。我们随后会将下载好的osmocom-bb项目、libosmocore等都放在这个文件夹里。
 
@@ -83,7 +83,7 @@ export PATH=$PATH:/home/vancir/Documents/osmocombb/install/bin
 
 设置成功与否，我们可以简单地通过在终端输入`arm`后按两次`Tab`键来查看是否输出了对应的编译器列表
 
-# 0x05 编译
+## 0x05 编译
 
 ## 下载项目源代码
 
@@ -118,7 +118,7 @@ make
 
 整个的编译过程花费的时间也不短。但是这里的编译过程很关键，一定要认真查看最后的输出信息，看是否编译成功。否则很容易在`osmocombb编译`这一步卡住，那么你就需要重新进行编译了。
 
-# 0x06 修改问题文件
+## 0x06 修改问题文件
 
 在编译完成后，我们还需要修改一些问题文件，否则在后续的扫描步骤会出现错误。
 
@@ -137,7 +137,7 @@ make -e CROSS_TOOL_PREFIX=arm-none-eabi-
 ```
 如果一路下来都没有遇到什么问题，那么恭喜你，软件部分已经准备好了。接下来我们进入硬件部分
 
-# 0x07 硬件准备
+## 0x07 硬件准备
 
 这里不需要进行硬件改造，只需要简单地使用`转接线`将`C118`与`FT232RL`模块连接即可。（这里C118不需要开机，也先不要去开机）
 
@@ -147,7 +147,7 @@ make -e CROSS_TOOL_PREFIX=arm-none-eabi-
 
 ![ft232_wire](http://od7mpc53s.bkt.clouddn.com/osmocombb-ft232_wire.jpg)
 
-# 0x08 刷入固件
+## 0x08 刷入固件
 
 我们进入osmocom-bb/src/host/osmocon目录下，准备刷入固件
 
@@ -159,7 +159,7 @@ sudo ./osmocon -m c123xor -p /dev/ttyUSB0 ../../target/firmware/board/compal_e88
 
 按下开机键后，终端开始输出信息，当提示`THIS FIRMWARE WAS COMPILED WITHOUT TX SUPPORT!!!`时表明固件刷入完毕。
 
-# 0x09 扫描基站信息
+## 0x09 扫描基站信息
 
 固件刷入完毕后，新建一个终端，进入 osmocom-bb/src/host/layer23/src/misc 目录
 
@@ -180,7 +180,7 @@ sudo ./ccch_scan -i 127.0.0.1 -a ARFCN
 ``` bash
 sudo ./ccch_scan -i 127.0.0.1 -a 69
 ```
-# 0x0A GSM嗅探
+## 0x0A GSM嗅探
 
 使用`wireshark`来帮我们抓取过滤数据包
 ``` bash

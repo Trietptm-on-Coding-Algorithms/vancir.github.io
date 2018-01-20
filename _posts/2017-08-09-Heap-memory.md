@@ -6,7 +6,7 @@ categories: translations
 ---
 
 
-# Heap memory
+## Heap memory
 
 > 本文是对Dhaval Kapil的[Heap Exploitation](https://heap-exploitation.dhavalkapil.com/)系列教程的译文
 

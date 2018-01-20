@@ -9,7 +9,7 @@ categories: tutorials
 
 大部分程序在编译时都会加入一些通用函数进行初始化，而虽然程序源码不同，但初始化过程基本相同，利用这点，我们就可以使用其中的通用gadget劫持控制流
 
-# ret2__libc_csu_init示例代码
+## ret2__libc_csu_init示例代码
 
 ``` c
 #undef _FORTIFY_SOURCE
@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
 
 本节示例的漏洞程序可以在此处下载： [ret2__libc_csu_init](http://od7mpc53s.bkt.clouddn.com/ret2__libc_csu_init)
 
-# 漏洞分析
+## 漏洞分析
 
 程序中没有`system()`也没有字符串`/bin/sh`，那么我们就需要尝试通过泄露libc地址，从而计算处`system()`地址，再将字符串`"/bin/sh"`写入`.bss`段中，最后模拟调用`system("/bin/sh")`
 
@@ -174,7 +174,7 @@ payload3 += p64(main)
 
 OK，我们的所有payload在此就都已经构造完毕了。
 
-# 攻击代码
+## 攻击代码
 
 ``` python
 from pwn import *

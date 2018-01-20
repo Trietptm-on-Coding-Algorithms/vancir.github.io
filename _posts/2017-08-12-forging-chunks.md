@@ -5,8 +5,6 @@ layout: post
 categories: translations
 ---
 
-# Forging chunks
-
 > 本文是对Dhaval Kapil的[Heap Exploitation](https://heap-exploitation.dhavalkapil.com/)系列教程的译文
 
 在堆块被释放后, 堆块会被插入到一个bin链表中. 然而它的指针在程序中依旧是可用的. 如果攻击这控制了这个指针, 那么他/她便可以修改bin的链表结构并插入他/她自己构造的`伪造`堆块. 以下的示例程序展示了在fastbin的释放链表中如何实现这一攻击.

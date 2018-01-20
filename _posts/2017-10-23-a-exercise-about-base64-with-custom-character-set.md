@@ -4,15 +4,12 @@ tags: [CTF]
 layout: post
 categories: writeups
 ---
-
-# WhiteHat Grand Prix Qualification Round 2015: Dong Van
-
 这次分析的是`WhiteHat Grand Prix Qualification Round 2015`的一道100分的逆向题`Dong Van`. 这道题的关键在于使用了`自定义编码`的`Base64`来处理字符串.
 
 文件下载地址: [re100_35d14595b17756b79556f6eca775c31a](http://od7mpc53s.bkt.clouddn.com/re100_35d14595b17756b79556f6eca775c31a)
 
 
-# 分析
+## 分析
 
 下载下来是7z压缩文件, 用7z解压. 使用file命令查看文件属性, 是一个x64的ELF可执行文件
 ```bash

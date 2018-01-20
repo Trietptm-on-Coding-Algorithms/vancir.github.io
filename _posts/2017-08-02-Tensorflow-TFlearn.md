@@ -5,7 +5,7 @@ categories: installation
 tags: [tools]
 ---
 
-# Installation - Tensorflow
+## Tensorflow
 
 这里的安装环境是Ubuntu 14.04 64bits，需要安装python，pip，numpy以及tensorflow。这里需要更新pip版本，否则会出现UnicodeDecodeError的错误信息而无法正确安装。
 
@@ -33,7 +33,7 @@ b = tf.constant(32)
 print sess.run(a+b) #42
 ```
 
-# Installation - TFlearn
+##  TFlearn
 
 在尝试安装TFlearn时遇到了不少问题，不光是在ubuntu14.04 64bits，而且在帮同学在win8，win10下安装（win下还需要安装如curses，scipy这些模块）也会遇到一些蜜汁bug，不过也还好，能在issues和stackoverflow上得到不少解答，也不枉自己的一番辛苦。
 
@@ -135,7 +135,7 @@ DiCaprio Surviving Rate: 0.113464005291
 Winslet Surviving Rate: 0.617543399334
 ```
 
-# More Reading
+## More Reading
 * [Tensorflow 中文社区](http://www.tensorfly.cn/)
 * [Github - TFlearn](https://github.com/tflearn/tflearn)
 * [SSL InsecurePlatform error when using Requests package](http://stackoverflow.com/questions/29099404/ssl-insecureplatform-error-when-using-requests-package)

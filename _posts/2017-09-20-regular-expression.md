@@ -5,7 +5,7 @@ layout: post
 categories: python
 ---
 
-# 正则表达式的常用操作符
+## 正则表达式的常用操作符
 
 | 操作符 | 说明 |示例 | 
 |-------|-----|----|
@@ -24,7 +24,7 @@ categories: python
 |\d|数字, 等价于[0-9]| |
 |\w|单词字符, 等价于[A-Za-z0-9_]| |
 
-# RE库的主要函数
+## RE库的主要函数
 
 |函数|说明|
 |---|---|
@@ -35,7 +35,7 @@ categories: python
 |re.finditer(pattern, string, flags=0)|搜索字符串, 返回一个匹配结果的迭代类型, 每个迭代元素是match对象|
 |re.sub(pattern, repl, string, count=0, flags=0)|在一个字符串中替换所有匹配正则表达式的子串, 返回替换后的字符串|
 
-# flags: 正则表达式使用时的控制标记
+## flags: 正则表达式使用时的控制标记
 
 |标记|说明|
 |---|---|
@@ -43,7 +43,7 @@ categories: python
 |re.M   re.MULTILINE|正则表达式中的^操作符能够将给定字符串的每行当做匹配开始|
 |re.S    re.DOTALL|正则表达式中.操作符能够匹配所有字符, 默认匹配除换行外的所有字符|
 
-# 一种等价的调用方式
+## 一种等价的调用方式
 
 ``` python
 rst = re.search(r'[1-9]\d{5}', 'BIT 100081')
@@ -52,7 +52,7 @@ pat = re.compiler(r'[1-9]\d{5}')
 rst = pat.search('BIT 100081')
 ```
 
-# Match对象的方法
+## Match对象的方法
 
 |方法|说明|
 |---|---|

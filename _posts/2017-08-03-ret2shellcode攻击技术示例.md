@@ -5,13 +5,13 @@ layout: post
 categories: tutorials
 ---
 
-# 什么是ret2shellcode？
+## 什么是ret2shellcode？
 
 ret2shellcode 即 return to shellcode，跟ret2text类似，但是众所周知，在大多数程序中并没有像system("/bin/sh")这样可以直接利用的代码，因此，在没有可以直接利用的代码片段时，我们可以尝试输入一段shellcode，然后向返回地址写入shellcode地址，那么当程序返回时，就可以跳转到shellcode继续执行。
 
 由于shellcode是在buf缓冲区里被执行，因此我们需要保证程序没有开启NX(No executable)保护，我们可以在gcc编译时添加*-z execstack*选项来关闭该保护。
 
-# ret2shellcode示例代码
+## ret2shellcode示例代码
 
 ``` c
 //gcc -m32 -fno-stack-protector -z execstack ret2shellcode.c -o ret2shellcode
@@ -38,7 +38,7 @@ int main(void)
 
 本节示例的漏洞程序也可以从此处下载：[ret2shellcode](http://od7mpc53s.bkt.clouddn.com/ret2shellcode)
 
-# 漏洞分析
+## 漏洞分析
 
 如源码所示，这次程序依旧使用了不安全的函数gets()接受用户输入。另外在pwntools中已经为我们提供了可用的shellcode，如下：
 ``` python
@@ -79,7 +79,7 @@ gdb-peda$ pattern_offset  0x41384141
 
 那么我们进行攻击所需要的所有要素都已经收集完成啦
 
-# 攻击代码
+## 攻击代码
 
 ``` python
 from pwn import *
