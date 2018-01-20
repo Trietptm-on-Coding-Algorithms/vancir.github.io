@@ -1,6 +1,6 @@
 ---
-title: yoda's protector脱壳思路
-tags: [unpack]
+title: zbot变种木马wsnpoem脱壳笔记 part 1
+tags: [unpack, malware]
 layout: post
 categories: crack
 ---
@@ -11,7 +11,6 @@ wsnpoem恶意程序是zbot木马家族的变种，经过加壳保护，我们接
 
 文中分析的程序你可以点击此处下载: [wsnpoem恶意样本par1.zip](http://od7mpc53s.bkt.clouddn.com/wsnpoem%E6%81%B6%E6%84%8F%E6%A0%B7%E6%9C%ACpar1.zip), 解压密码: www.pediy.com
 
-## 脱壳步骤
 OD载入`wsnpoem-with-rootkit.exe`
 
 ![1.png](https://bbs.pediy.com/upload/attach/201712/722644_qbbr1m7nonwqzv1.jpg)
