@@ -43,7 +43,7 @@ BlockInput的api就是上图的灰色代码，retn 4就是结尾，我们只需�
 
 这样，api就不会进行任何操作，我们的输入设备也不会被阻塞
 
-##枚举进程并终止调试器
+## 枚举进程并终止调试器
 
 yoda使用CreateToolhelp32Snapshot来获取所有正在运行的进程，然后yoda会搜索启动unpackme的进程是否和unpackme自己的进程PID是否相同，如果不同，那么yoda就会终止掉该进程(如od)。如果我们像先前一样patch掉CreateToolhelp32Snapshot，程序则会产生句柄非法(Invalid_Handle)异常。这里有另外一种方式来绕过保护。yoda使用GetCurrentProcessId来获取PID，因此我们可以控制返回的PID的值来迷惑保护代码。
 
