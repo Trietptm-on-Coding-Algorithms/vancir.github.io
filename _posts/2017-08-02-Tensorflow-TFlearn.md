@@ -2,7 +2,7 @@
 layout: post
 title: Tensorflow与TFlearn安装与使用
 categories: installation
-tags: [tools]
+tags: [tool]
 ---
 
 ## Tensorflow

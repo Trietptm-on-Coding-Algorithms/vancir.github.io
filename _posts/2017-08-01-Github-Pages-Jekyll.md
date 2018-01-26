@@ -2,7 +2,7 @@
 layout: post
 title: 使用Github Pages和Jekyll建站小记
 categories: installation
-tags: [tools]
+tags: [tool]
 ---
 
 ## 使用Github Pages建立博客

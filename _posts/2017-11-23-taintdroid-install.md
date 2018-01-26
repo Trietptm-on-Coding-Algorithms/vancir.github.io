@@ -1,6 +1,6 @@
 ---
 title: TaintDroid 动态污点分析工具部署
-tags: [tools]
+tags: [tool]
 layout: post
 categories: installation
 ---

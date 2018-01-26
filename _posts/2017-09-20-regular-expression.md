@@ -1,6 +1,6 @@
 ---
 title: RE(正则表达式)库
-tags: [tools]
+tags: [tool]
 layout: post
 categories: python
 ---

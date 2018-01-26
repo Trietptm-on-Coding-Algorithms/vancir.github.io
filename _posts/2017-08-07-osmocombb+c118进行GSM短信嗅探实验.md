@@ -1,6 +1,6 @@
 ---
 title: osmocombb+c118进行GSM短信嗅探实验
-tags: [tools]
+tags: [tool]
 layout: post
 categories: installation
 ---
