@@ -5,7 +5,7 @@ author: Vancir
 qq: 493287288
 email: vancirprince@gmail.com
 github: vancir
-highlighter: true
+highlighter: rouge
 safe: true
 paginate: 15
 plugins: [jekyll-paginate]
