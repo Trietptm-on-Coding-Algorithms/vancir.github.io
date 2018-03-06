@@ -12,3 +12,7 @@ layout: page
 ## ARM
 
 * [VisUAL](https://salmanarif.bitbucket.io/visual/index.html) - 一个跨平台且高度可视化的ARM模拟器, 用于更好地学习ARM汇编语言.
+
+## Crypto
+
+* [Password Calculator](http://lastbit.com/pswcalc.asp) - 可以用于计算暴力穷举破解密码所需要花费的时间
