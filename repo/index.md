@@ -6,8 +6,9 @@ layout: page
 我在这里列举一些在我看来非常棒的开源工具
 ## Win32
 
-{% render_github_repo hasherezade/libpeconv %}
-{% render_github_repo hasherezade/pe-sieve %}
+* [hasherezade/libpeconv](https://github.com/hasherezade/libpeconv)
+* [hasherezade/pe-sieve](https://github.com/hasherezade/pe-sieve)
+
 
 ## ARM
 
