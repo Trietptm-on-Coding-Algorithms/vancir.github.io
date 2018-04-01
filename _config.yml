@@ -8,9 +8,7 @@ github: vancir
 highlighter: rouge
 safe: true
 paginate: 15
-plugins: 
-  - jekyll-paginate
-  - jekyll-twitter-plugin
+plugins: [jekyll-paginate, jekyll-twitter-plugin, jekyll-youtube]
 defaults:
  -
   scope:

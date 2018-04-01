@@ -18,7 +18,5 @@ Interests:
 
 Email:  vancirprince@gmail.com
 
-Twitter: Vancirprince
-
-----
+Twitter: [Vancirprince](https://twitter.com/Vancirprince)
 

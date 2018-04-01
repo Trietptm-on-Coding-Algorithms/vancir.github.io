@@ -6,9 +6,9 @@ comments: yes
 
 这些都是我非常喜欢或者说非常值得一看的书籍
 
-# 小说
+## 小说
 
-* 解忧杂货店
+* [解忧杂货店](https://book.douban.com/subject/25862578/)
 
 {% twitter https://twitter.com/Vancirprince/status/960706633138503680 %}
 {% twitter https://twitter.com/Vancirprince/status/960707353224949760 %}
